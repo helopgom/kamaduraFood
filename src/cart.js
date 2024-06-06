@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 addToCart(product);
             }
         });
-    });
+
     
 
     //eliminarse el plato del carrito de compras cuando llegue a la cantidad 0
@@ -167,3 +167,4 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     
         updateSubtotal();
+    });
