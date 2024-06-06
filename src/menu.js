@@ -5,14 +5,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const filtersContainer = document.getElementById('filters');
     const productContainer = document.getElementById('products');
 
-    // Imprimir los filtros
-    filters.forEach(filter => {
-        const filterButton = document.createElement('button');
-        filterButton.className = 'filter';
-        filterButton.textContent = filter;
-        filterButton.addEventListener('click', () => filterProducts(filter));
-        filtersContainer.appendChild(filterButton);
-    });
+    // Imprimir los filtros {
+    function renderFilters() {
+        filtersContainer.innerHTML = '';
+        filters.forEach(filter => {
+            const button = document.createElement('button');
+            button.className = 'filter';
+            button.textContent = filter;
+            button.addEventListener('click', () => filterProducts(filter));
+            filtersContainer.appendChild(button);
+        });
+    }
+
+    //DEBE imprimir en pantalla los productos, con su Título, descripción y precio en € y botón añadir.
 
     // Función para imprimir los productos
     const printProducts = (productsToDisplay) => {
@@ -58,6 +63,9 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             const filteredProducts = products.filter(product => product.category === filter);
             printProducts(filteredProducts);
-        }
+        }  
     };
+
+    renderFilters();
+
 });
