@@ -45,73 +45,84 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // FUNCIÓN PARA AÑADIR PRODUCTO AL CARRITO
-    addButtons.forEach(button => {
-        button.addEventListener('click', function(event) {
-            const productElement = event.target.closest('.product-container');
-            const productTitle = productElement.querySelector('h3').innerText;
-            const productPrice = parseFloat(productElement.querySelector('.price-container h5').innerText.replace('€', ''));
-            const existingProduct = cart.find(product => product.title === productTitle);
 
-            if (existingProduct) {
-                existingProduct.quantity++;
-            } else {
-                cart.push({ title: productTitle, price: productPrice, quantity: 1 });
-            }
-            updateCartUI();
-        });
-    });
-
+        const addToCart = (product) => {
+            const cartProduct = document.createElement('div');
+            cartProduct.className = 'cart-container';
     
-
-    // FUNCIÓN PARA ACTUALIZAR EL TOTAL DEL CARRITO
-    function updateTotal() {
-        total = cart.reduce((acc, product) => acc + product.price * product.quantity, 0);
-        cartTotal.innerText = `Total: ${total}€`;
-    }
-
-        
-
-    // FUNCIÓN PARA ACTUALIZAR LA UI DEL CARRITO
-    function updateCartUI() {
-        cartProductsContainer.innerHTML = '';
-        cart.forEach(product => {
-            const productDiv = document.createElement('div');
-            productDiv.classList.add('cart-container');
-            productDiv.innerHTML = `
+            cartProduct.innerHTML = `
                 <button class="close-button"><img src="./assets/img/close.svg" alt="close"></button>
                 <div class="text-container">
-                    <h3>${product.title}</h3>
-                    <h5>${product.price}€</h5>
+                    <h3>${product.name}</h3>
+                    <h5>€ ${product.price.toFixed(2)}</h5>
                 </div>
                 <div class="quantity-container" id="quantity">
                     <button class="increase-quantity">+</button>
-                    <p class="quantity">${product.quantity}</p>
+                    <p class="quantity">1</p>
                     <button class="decrease-quantity">-</button>
                 </div>
             `;
-
-            // Añadir event listener para eliminar producto
-            productDiv.querySelector('.close-button').addEventListener('click', function() {
-                removeProductFromCart(product.title);
+    
+            cartProductsContainer.appendChild(cartProduct);
+    
+            updateCartTotal();
+    
+            cartProduct.querySelector('.increase-quantity').addEventListener('click', increaseQuantity);
+            cartProduct.querySelector('.decrease-quantity').addEventListener('click', decreaseQuantity);
+            cartProduct.querySelector('.close-button').addEventListener('click', removeProduct);
+        };
+    
+        const updateCartTotal = () => {
+            const cartProducts = cartProductsContainer.querySelectorAll('.cart-container');
+            let total = 0;
+    
+            cartProducts.forEach(product => {
+                const priceElement = product.querySelector('.text-container h5');
+                const price = parseFloat(priceElement.innerText.replace('€', '').trim());
+                const quantityElement = product.querySelector('.quantity');
+                const quantity = parseInt(quantityElement.innerText);
+                total += price * quantity;
             });
-
-            // Añadir event listener para aumentar cantidad
-            productDiv.querySelector('.increase-quantity').addEventListener('click', function() {
-                product.quantity++;
-                updateCartUI();
-            });
-
-            // Añadir event listener para disminuir cantidad
-            productDiv.querySelector('.decrease-quantity').addEventListener('click', function() {
-                if (product.quantity > 1) {
-                    product.quantity--;
-                }
-                updateCartUI();
-            });
-
-            cartProductsContainer.appendChild(productDiv);
+    
+            document.getElementById('cart-total').innerText = `Total: € ${total.toFixed(2)}`;
+        };
+    
+        const increaseQuantity = (event) => {
+            const quantityElement = event.target.nextElementSibling;
+            let quantity = parseInt(quantityElement.innerText);
+            quantity++;
+            quantityElement.innerText = quantity;
+            updateCartTotal();
+        };
+    
+        const decreaseQuantity = (event) => {
+            const quantityElement = event.target.previousElementSibling;
+            let quantity = parseInt(quantityElement.innerText);
+            if (quantity > 1) {
+                quantity--;
+                quantityElement.innerText = quantity;
+                updateCartTotal();
+            }
+        };
+    
+        const removeProduct = (event) => {
+            const productContainer = event.target.closest('.cart-container');
+            productContainer.remove();
+            updateCartTotal();
+        };
+    
+        // Event listener for "Añadir" buttons
+        document.getElementById('products').addEventListener('click', (event) => {
+            if (event.target.classList.contains('add-button')) {
+                const productContainer = event.target.closest('.product-container');
+                const productName = productContainer.querySelector('h3').innerText;
+                const productPrice = parseFloat(productContainer.querySelector('.price-container h5').innerText.replace('€', '').trim());
+                const product = {
+                    name: productName,
+                    price: productPrice
+                };
+                addToCart(product);
+            }
         });
-        updateTotal();
-    }
-});
-
+    });
+    
