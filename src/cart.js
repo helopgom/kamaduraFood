@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const decreaseQuantity = (event) => {
             const quantityElement = event.target.previousElementSibling;
             let quantity = parseInt(quantityElement.innerText);
-            if (quantity > 1) {
+            if (quantity > 0) {
                 quantity--;
                 quantityElement.innerText = quantity;
                 updateCartTotal();
@@ -124,5 +124,47 @@ document.addEventListener("DOMContentLoaded", function() {
                 addToCart(product);
             }
         });
-    });
+
     
+
+    //eliminarse el plato del carrito de compras cuando llegue a la cantidad 0
+  
+        function updateSubtotal() {
+            let total = 0;
+            const cartItems = cartProductsContainer.getElementsByClassName('cart-container');
+            Array.from(cartItems).forEach(item => {
+                const priceElement = item.querySelector('.text-container h5');
+                const quantityElement = item.querySelector('.quantity-container .quantity');
+                const price = parseFloat(priceElement.textContent.replace('Precio €', '').trim());
+                const quantity = parseInt(quantityElement.textContent);
+                total += price * quantity;
+            });
+            cartTotalElement.textContent = `Total: €${total.toFixed(2)}`;
+        }
+    
+        cartProductsContainer.addEventListener('click', function(event) {
+            if (event.target.tagName === 'BUTTON') {
+                const quantityContainer = event.target.parentElement;
+                const quantityElement = quantityContainer.querySelector('.quantity');
+                let quantity = parseInt(quantityElement.textContent);
+    
+                if (event.target.textContent === '+') {
+                    quantity++;
+                } else if (event.target.textContent === '-') {
+                    quantity--;
+                    if (quantity <= 0) {
+    
+                        // Remove the product from the cart
+    
+                        const productContainer = event.target.closest('.cart-container');
+                        productContainer.remove();
+                    }
+                }
+    
+                quantityElement.textContent = quantity > 0 ? quantity : 0;
+                updateSubtotal();
+            }
+        });
+    
+        updateSubtotal();
+    });
