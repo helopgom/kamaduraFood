@@ -72,9 +72,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         updateCartTotal();
-
-        // Cerrar el carrito después de añadir un producto
-        cartContainer.style.display = 'none';
     };
 
     const updateCartTotal = () => {
