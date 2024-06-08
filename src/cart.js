@@ -13,15 +13,15 @@ export const clearCart = () => {
 
 // FUNCIÓN PARA ACTUALIZAR EL TOTAL DEL CARRITO
 export const updateCartTotal = () => {
-    const cartProducts = cartProductsContainer.querySelectorAll('.cart-container');
+    const cartProducts = cartProductsContainer.querySelectorAll('.cart-container'); 
     let total = 0;
 
     cartProducts.forEach(product => {
         const priceElement = product.querySelector('.text-container h5');
-        const price = parseFloat(priceElement.innerText.replace('€', '').trim());
+        const price = parseFloat(priceElement.innerText.replace('€', '').trim()); //parseFloat convertir los números enteros en decimales
         const quantityElement = product.querySelector('.quantity');
         const quantity = parseInt(quantityElement.innerText);
-        total += price * quantity;
+        total += price * quantity; //el total será , el total, más el precio por la cantidad
     });
 
     cartTotal.innerText = `Total: € ${total.toFixed(2)}`;
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // FUNCIÓN PARA MOSTRAR EL CARRITO
     cartButton.addEventListener('click', function() {
         if (cartContainer.style.display === 'none' || cartContainer.style.display === '') {
-            cartContainer.style.display = 'flex';
+            cartContainer.style.display = 'flex'; //flex es mostrar ese display
         } else {
             cartContainer.style.display = 'none';
         }
