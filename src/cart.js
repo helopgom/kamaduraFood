@@ -1,7 +1,7 @@
-//DEBE contener las funcionalidades del carrito de compras.
 // Variables globales
 let cartProductsContainer;
 let cartTotal;
+let isPaymentInProgress = false;
 
 // FUNCIÓN PARA LIMPIAR EL CARRITO
 export const clearCart = () => {
@@ -25,6 +25,11 @@ export const updateCartTotal = () => {
     });
 
     cartTotal.innerText = `Total: € ${total.toFixed(2)}`;
+};
+
+// FUNCIÓN PARA OCULTAR EL CONTENEDOR DE PRODUCTOS DEL CARRITO
+export const hideCartProductsContainer = () => {
+    cartProductsContainer.style.display = 'none';
 };
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -66,6 +71,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // FUNCIÓN PARA AÑADIR PRODUCTO AL CARRITO
     const addToCart = (product) => {
+        if (isPaymentInProgress) return; // No añadir productos si el pago está en progreso
+
         // Comprobar si el producto ya está en el carrito
         const existingProduct = cartProductsContainer.querySelector(`.cart-container[data-name="${product.name}"]`);
         if (existingProduct) {

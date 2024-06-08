@@ -1,4 +1,4 @@
-import { updateCartTotal } from './cart.js';
+import { updateCartTotal, hideCartProductsContainer } from './cart.js';
 
 document.addEventListener("DOMContentLoaded", function() {
     const proceedPayButton = document.getElementById('proceedPay-button');
@@ -6,6 +6,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // FUNCIÓN PARA MOSTRAR EL RECIBO
     proceedPayButton.addEventListener('click', function() {
+        // Ocultar el contenedor de productos del carrito
+        hideCartProductsContainer();
+
         // Calcular el total y mostrar los productos en el recibo
         const cartProducts = document.querySelectorAll('.cart-container');
         const receiptProductContainer = document.getElementById('receipt-product');
@@ -42,10 +45,6 @@ document.addEventListener("DOMContentLoaded", function() {
         receiptTotal.textContent = `Total: €${total.toFixed(2)}`;
 
         receiptContainer.style.display = 'flex';
-        
-        // No cerrar el carrito ni resetear el total
-        // cartContainer.style.display = 'none';
-        // clearCart(); // No vaciar el carrito
     });
 
     // BOTÓN PARA CERRAR EL RECIBO
