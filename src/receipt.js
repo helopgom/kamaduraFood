@@ -1,17 +1,15 @@
-
+import { updateCartTotal } from './cart.js';
 
 document.addEventListener("DOMContentLoaded", function() {
-    const closeButtons = document.querySelectorAll('.close-button');
-    const addButtons = document.querySelectorAll('.add-button');
-
-    // FUNCIÓN PARA MOSTRAR EL RECIBO
     const proceedPayButton = document.getElementById('proceedPay-button');
     const receiptContainer = document.getElementById('receipt-container');
+
+    // FUNCIÓN PARA MOSTRAR EL RECIBO
     proceedPayButton.addEventListener('click', function() {
         // Calcular el total y mostrar los productos en el recibo
         const cartProducts = document.querySelectorAll('.cart-container');
         const receiptProductContainer = document.getElementById('receipt-product');
-        
+
         receiptProductContainer.innerHTML = ''; // Limpiar recibo previo
         let total = 0;
 
@@ -44,7 +42,10 @@ document.addEventListener("DOMContentLoaded", function() {
         receiptTotal.textContent = `Total: €${total.toFixed(2)}`;
 
         receiptContainer.style.display = 'flex';
-        cartContainer.style.display = 'none';
+        
+        // No cerrar el carrito ni resetear el total
+        // cartContainer.style.display = 'none';
+        // clearCart(); // No vaciar el carrito
     });
 
     // BOTÓN PARA CERRAR EL RECIBO
@@ -53,43 +54,6 @@ document.addEventListener("DOMContentLoaded", function() {
         receiptContainer.style.display = 'none';
     });
 
-    // Otros event listeners pueden ir aquí (si los necesitas para añadir productos o cerrar productos individuales)
-    closeButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Código para cerrar el producto del carrito
-            button.parentElement.remove();
-            // Opcional: actualizar el total del carrito si se eliminan productos
-            updateCartTotal();
-        });
-    });
-
-    addButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Código para añadir productos al carrito
-            // Opcional: actualizar el total del carrito si se añaden productos
-            updateCartTotal();
-        });
-    });
-
-    // Calcular el total del carrito
-    function updateCartTotal() {
-        const priceElements = document.querySelectorAll(".cart-container .text-container h5");
-        let total = 0;
-
-        priceElements.forEach(element => {
-            const priceText = element.textContent;
-            const price = parseFloat(priceText.match(/[\d.]+/));
-            const quantity = parseInt(element.closest('.cart-container').querySelector('.quantity-container .quantity').textContent);
-            if (!isNaN(price) && !isNaN(quantity)) {
-                total += price * quantity;
-            }
-        });
-
-        const totalElement = document.getElementById("cart-total");
-        totalElement.textContent = `Total: €${total.toFixed(2)}`;
-    }
-
-    // Inicializa el total del carrito al cargar la página
+    // Actualizar el total del carrito
     updateCartTotal();
 });
-
