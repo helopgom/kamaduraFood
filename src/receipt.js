@@ -65,7 +65,6 @@ if (cartProducts.length === 0) {
     receiptProductContainer.innerHTML = '<p>No tienes nada en el carrito aún</p>';
 } else {
     let total = 0;
-
     cartProducts.forEach(product => {
         const title = product.querySelector('.text-container h3').textContent;
         const priceText = product.querySelector('.text-container h5').textContent;

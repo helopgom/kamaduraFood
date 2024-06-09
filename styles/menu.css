@@ -180,6 +180,14 @@ nav {
     position: absolute;
 }
 
+/* Mensaje de Carro Vacío*/
+
+.empty-cart-message{
+
+    color: var(--color-main);
+    
+}
+
 
 @media screen and (max-width: 768px) {
     .main-container {
