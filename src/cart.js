@@ -1,4 +1,4 @@
-// Variables globales
+// Variables declaradas fuera de las funciones
 let cartProductsContainer;
 let cartTotal;
 let isPaymentInProgress = false;
@@ -18,7 +18,7 @@ export const updateCartTotal = () => {
 
     cartProducts.forEach(product => {
         const priceElement = product.querySelector('.text-container h5');
-        const price = parseFloat(priceElement.innerText.replace('€', '').trim()); //parseFloat convertir los números enteros en decimales
+        const price = parseFloat(priceElement.innerText.replace('€', '').trim()); //parseFloat obvia las letras quednadose con los decimales
         const quantityElement = product.querySelector('.quantity');
         const quantity = parseInt(quantityElement.innerText);
         total += price * quantity; //el total será , el total, más el precio por la cantidad
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function() {
     cartProductsContainer = document.getElementById('cart-products');
     cartTotal = document.getElementById('cart-total');
     let cart = [];
-    let total = 0;
+    
 
     // Eliminar el div inicial del carrito de muestra
     const initialCartProduct = cartProductsContainer.querySelector('.cart-container');

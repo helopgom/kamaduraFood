@@ -97,9 +97,6 @@ if (cartProducts.length === 0) {
 }
 
 
-
-
-
     // BOTÓN PARA CERRAR EL RECIBO
     const closeReceiptButton = document.getElementById('close-receipt');
     closeReceiptButton.addEventListener('click', function() {
@@ -109,3 +106,4 @@ if (cartProducts.length === 0) {
     // Actualizar el total del carrito
     updateCartTotal();
 });
+

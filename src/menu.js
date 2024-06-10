@@ -1,4 +1,4 @@
-import { products, filters } from "../assets/data/data.js"
+import { products, filters } from "../assets/data/data.js" // importamos lo que fuera necesario para ejecutar las funciones que fueramos a usar
 
 //DEBE imprimir en pantalla la información de filtros.
 document.addEventListener("DOMContentLoaded", () => {
